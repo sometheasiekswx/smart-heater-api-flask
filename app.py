@@ -1,3 +1,4 @@
+from operator import itemgetter
 from signal import signal, SIGINT
 from sys import exit
 from time import sleep
@@ -72,17 +73,23 @@ def has_no_empty_params(rule):
     return len(defaults) >= len(arguments)
 
 
+@app.cli.command()
+def routes():
+    'Display registered routes'
+    rules = []
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(sorted(rule.methods))
+        rules.append((rule.endpoint, methods, str(rule)))
+
+    sort_by_rule = itemgetter(2)
+    for endpoint, methods, rule in sorted(rules, key=sort_by_rule):
+        route = '{:50s} {:25s} {}'.format(endpoint, methods, rule)
+        print(route)
+
+
 @app.route("/")
 def main():
-    links = []
-    for rule in app.url_map.iter_rules():
-        # Filter out rules we can't navigate to in a browser and rules that require parameters
-        if "GET" in rule.methods and has_no_empty_params(rule):
-            url = url_for(rule.endpoint, **(rule.defaults or {}))
-            links.append((url, rule.endpoint))
-
-    # links is now a list of url, endpoint tuples
-    return links
+    return "Smart Heater API"
 
 
 def cleanup(signal, frame):
