@@ -30,14 +30,14 @@ print("Sensor initializing . . .")
 sleep(5)
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 no_motion_count = 0
 desired_temperature = 28
 desired_temperature_margin = 2
 
 
-@app.route("/temperature")
+@app.route("/api/v1/temperature")
 def get_temperature():
     humidity, temperature = read_retry(
         temperature_humidity_sensor, gpio_pin)
@@ -47,7 +47,7 @@ def get_temperature():
     return 'Unknown Temperature/Humidity'
 
 
-@app.route("/motion")
+@app.route("/api/v1/motion")
 def get_motion():
     if GPIO.input(motion_pin):
         GPIO.output(led_pin, True)
