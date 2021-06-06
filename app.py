@@ -84,6 +84,8 @@ def main():
 
 def cleanup(signal, frame):
     print('Closing API...')
+    GPIO.output(led_pin, False)
+    GPIO.cleanup()
     exit(0)
 
 
