@@ -65,23 +65,22 @@ def get_temperature():
 
 @app.route("/")
 def main():
-    # while True:
-    #     temperature = handle_temperature()
-    #     no_motion_count = handle_motion(no_motion_count)
-    #
-    #     if no_motion_count >= 20:
-    #         print(f"No Human Detected.")
-    #     elif temperature > desired_temperature + desired_temperature_margin:
-    #         print(f"Temperature Too High")
-    #     elif temperature < desired_temperature - desired_temperature_margin:
-    #         print(f"Temperature Too Low")
-    #     else:
-    #         print(f"Temperature Just Right")
-    #
-    #     print(f"No Motion Count: {no_motion_count}")
-    #
-    #     sleep(0.25)
-    return "NOTHING HERE"
+    while True:
+        temperature = handle_temperature()
+        no_motion_count = handle_motion(no_motion_count)
+
+        if no_motion_count >= 20:
+            print(f"No Human Detected.")
+        elif temperature > desired_temperature + desired_temperature_margin:
+            print(f"Temperature Too High")
+        elif temperature < desired_temperature - desired_temperature_margin:
+            print(f"Temperature Too Low")
+        else:
+            print(f"Temperature Just Right")
+
+        print(f"No Motion Count: {no_motion_count}")
+
+        sleep(0.25)
 
 
 def cleanup(signal, frame):
