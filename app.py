@@ -18,18 +18,6 @@ no_motion_count = 0
 GPIO.setup(motion_pin, GPIO.IN)
 GPIO.setup(led_pin, GPIO.OUT)
 
-
-def handle_motion(no_motion_count):
-    if GPIO.input(motion_pin):
-        print("Motion Detected!")
-        GPIO.output(led_pin, True)
-        sleep(4)
-        GPIO.output(led_pin, False)
-        return 0
-    else:
-        return no_motion_count + 1
-
-
 # Temperature + Humidity
 
 temperature_humidity_sensor = DHT11
