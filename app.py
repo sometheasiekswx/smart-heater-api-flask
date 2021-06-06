@@ -90,12 +90,24 @@ def routes():
 @app.route("/")
 def main():
     return """
-        Smart Heater API
-        
-        Endpoint         Methods  Rule
-        ---------------  -------  -----------------------
-        get_motion       GET      /motion
-        get_temperature  GET      /temperature
+        <h1>Smart Heater API</h1>
+        <table>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Rule</th>
+          </tr>
+          <tr>
+            <td>get_motion</td>
+            <td>GET</td>
+            <td>/motion</td>
+          </tr>
+          <tr>
+            <td>get_temperature</td>
+            <td>GET</td>
+            <td>/temperature</td>
+          </tr>
+        </table>
     """
 
 
