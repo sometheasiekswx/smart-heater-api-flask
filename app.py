@@ -6,6 +6,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 from Adafruit_DHT import DHT11, read_retry
 from flask import Flask
+from flask_cors import CORS
 
 GPIO.setmode(GPIO.BCM)
 
@@ -29,6 +30,7 @@ print("Sensor initializing . . .")
 sleep(5)
 
 app = Flask(__name__)
+cors = CORS(app)
 
 no_motion_count = 0
 desired_temperature = 28
