@@ -33,19 +33,6 @@ def handle_motion(no_motion_count):
 temperature_humidity_sensor = Adafruit_DHT.DHT11
 gpio_pin = 4
 
-
-def handle_temperature():
-    humidity, temperature = Adafruit_DHT.read_retry(
-        temperature_humidity_sensor, gpio_pin)
-    if humidity is not None and temperature is not None:
-        print(
-            'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity))
-        return temperature
-    else:
-        print('Failed to read Temperature/Humidity')
-        return 0
-
-
 # Run Program
 
 print("Sensor initializing . . .")
@@ -60,8 +47,11 @@ desired_temperature_margin = 2
 
 @app.route("/temperature")
 def get_temperature():
-    temperature = handle_temperature()
-    return temperature
+    humidity, temperature = Adafruit_DHT.read_retry(
+        temperature_humidity_sensor, gpio_pin)
+    if humidity is not None and temperature is not None:
+        return 'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity)
+    return 'Unknown Temperature/Humidity'
 
 
 @app.route("/")
