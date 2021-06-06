@@ -51,10 +51,10 @@ def get_temperature():
 def get_motion():
     if GPIO.input(motion_pin):
         GPIO.output(led_pin, True)
-        return "Motion Detected"
+        return "true"
 
     GPIO.output(led_pin, False)
-    return "No Motion"
+    return "false"
 
 
 def has_no_empty_params(rule):
