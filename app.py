@@ -1,8 +1,9 @@
 from signal import signal, SIGINT
 from sys import exit
-import RPi.GPIO as GPIO
-import Adafruit_DHT
 from time import sleep
+
+import RPi.GPIO as GPIO
+from Adafruit_DHT import DHT11, read_retry
 from flask import Flask, url_for
 
 GPIO.setmode(GPIO.BCM)
@@ -30,7 +31,7 @@ def handle_motion(no_motion_count):
 
 # Temperature + Humidity
 
-temperature_humidity_sensor = Adafruit_DHT.DHT11
+temperature_humidity_sensor = DHT11
 gpio_pin = 4
 
 # Run Program
@@ -47,7 +48,7 @@ desired_temperature_margin = 2
 
 @app.route("/temperature")
 def get_temperature():
-    humidity, temperature = Adafruit_DHT.read_retry(
+    humidity, temperature = read_retry(
         temperature_humidity_sensor, gpio_pin)
     if humidity is not None and temperature is not None:
         return 'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity)
@@ -75,18 +76,13 @@ def has_no_empty_params(rule):
 def main():
     links = []
     for rule in app.url_map.iter_rules():
-        # Filter out rules we can't navigate to in a browser
-        # and rules that require parameters
+        # Filter out rules we can't navigate to in a browser and rules that require parameters
         if "GET" in rule.methods and has_no_empty_params(rule):
             url = url_for(rule.endpoint, **(rule.defaults or {}))
             links.append((url, rule.endpoint))
+
     # links is now a list of url, endpoint tuples
-
-
-#
-# @app.route("/")
-# def main():
-#     return "s"
+    return links
 
 
 def cleanup(signal, frame):
