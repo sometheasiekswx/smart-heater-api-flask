@@ -53,6 +53,9 @@ sleep(5)
 
 app = Flask(__name__)
 
+no_motion_count = 0
+desired_temperature = 28
+desired_temperature_margin = 2
 
 @app.route("/temperature")
 def get_temperature():
@@ -61,10 +64,6 @@ def get_temperature():
 
 @app.route("/")
 def main():
-    no_motion_count = 0
-    desired_temperature = 28
-    desired_temperature_margin = 2
-
     while True:
         temperature = handle_temperature()
         no_motion_count = handle_motion(no_motion_count)
