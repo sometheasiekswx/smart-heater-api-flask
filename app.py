@@ -3,7 +3,7 @@ from sys import exit
 import RPi.GPIO as GPIO
 import Adafruit_DHT
 from time import sleep
-from flask import Flask
+from flask import Flask, url_for
 
 GPIO.setmode(GPIO.BCM)
 
@@ -51,27 +51,42 @@ def get_temperature():
         temperature_humidity_sensor, gpio_pin)
     if humidity is not None and temperature is not None:
         return 'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity)
+
     return 'Unknown Temperature/Humidity'
+
+
+@app.route("/motion")
+def get_motion():
+    if GPIO.input(motion_pin):
+        GPIO.output(led_pin, True)
+        return "Motion Detected"
+
+    GPIO.output(led_pin, False)
+    return "No Motion"
+
+
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
 
 
 @app.route("/")
 def main():
-    while True:
-        temperature = handle_temperature()
-        no_motion_count = handle_motion(no_motion_count)
+    links = []
+    for rule in app.url_map.iter_rules():
+        # Filter out rules we can't navigate to in a browser
+        # and rules that require parameters
+        if "GET" in rule.methods and has_no_empty_params(rule):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            links.append((url, rule.endpoint))
+    # links is now a list of url, endpoint tuples
 
-        if no_motion_count >= 20:
-            print(f"No Human Detected.")
-        elif temperature > desired_temperature + desired_temperature_margin:
-            print(f"Temperature Too High")
-        elif temperature < desired_temperature - desired_temperature_margin:
-            print(f"Temperature Too Low")
-        else:
-            print(f"Temperature Just Right")
 
-        print(f"No Motion Count: {no_motion_count}")
-
-        sleep(0.25)
+#
+# @app.route("/")
+# def main():
+#     return "s"
 
 
 def cleanup(signal, frame):
