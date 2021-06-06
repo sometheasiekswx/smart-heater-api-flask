@@ -43,6 +43,7 @@ def handle_temperature():
         return temperature
     else:
         print('Failed to read Temperature/Humidity')
+        return 0
 
 
 # Run Program
@@ -59,15 +60,7 @@ desired_temperature_margin = 2
 
 @app.route("/temperature")
 def get_temperature():
-    humidity, temperature = Adafruit_DHT.read_retry(
-        temperature_humidity_sensor, gpio_pin)
-    if humidity is not None and temperature is not None:
-        print(
-            'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity))
-        return temperature
-    else:
-        return "Unknown"
-        print('Failed to read Temperature/Humidity')
+    return handle_temperature()
 
 
 @app.route("/")
