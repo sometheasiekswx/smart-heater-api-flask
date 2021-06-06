@@ -1,6 +1,7 @@
+from signal import signal, SIGINT
+from sys import exit
+
 from flask import Flask
-import sys
-import signal
 
 app = Flask(__name__)
 
@@ -12,8 +13,7 @@ def hello_world():
 
 def cleanup(signal, frame):
     print('Closing API...')
-    sys.exit(0)
+    exit(0)
 
 
-signal.signal(signal.SIGINT, cleanup)
-signal.pause()
+signal(SIGINT, cleanup)
