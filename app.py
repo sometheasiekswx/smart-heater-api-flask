@@ -90,12 +90,12 @@ def main():
           <tr>
             <td>get_motion</td>
             <td>GET</td>
-            <td>/motion</td>
+            <td>/api/v1/motion</td>
           </tr>
           <tr>
             <td>get_temperature</td>
             <td>GET</td>
-            <td>/temperature</td>
+            <td>/api/v1/temperature</td>
           </tr>
         </table>
     """
