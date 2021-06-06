@@ -5,7 +5,7 @@ from time import sleep
 
 import RPi.GPIO as GPIO
 from Adafruit_DHT import DHT11, read_retry
-from flask import Flask, url_for
+from flask import Flask
 
 GPIO.setmode(GPIO.BCM)
 
@@ -89,7 +89,14 @@ def routes():
 
 @app.route("/")
 def main():
-    return "Smart Heater API"
+    return """
+        Smart Heater API
+        
+        Endpoint         Methods  Rule
+        ---------------  -------  -----------------------
+        get_motion       GET      /motion
+        get_temperature  GET      /temperature
+    """
 
 
 def cleanup(signal, frame):
