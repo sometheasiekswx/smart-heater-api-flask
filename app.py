@@ -42,9 +42,9 @@ def get_temperature():
     humidity, temperature = read_retry(
         temperature_humidity_sensor, gpio_pin)
     if humidity is not None and temperature is not None:
-        return 'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity)
+        return str(temperature)
 
-    return 'Unknown Temperature/Humidity'
+    return 'Unknown'
 
 
 @app.route("/api/v1/motion")
