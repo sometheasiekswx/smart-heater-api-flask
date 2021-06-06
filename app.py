@@ -66,6 +66,7 @@ def get_temperature():
             'Temperature = {0:0.1f}*C  Humidity = {1:0.1f}%'.format(temperature, humidity))
         return temperature
     else:
+        return "Unknown"
         print('Failed to read Temperature/Humidity')
 
 
