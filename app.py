@@ -57,9 +57,11 @@ no_motion_count = 0
 desired_temperature = 28
 desired_temperature_margin = 2
 
+
 @app.route("/temperature")
 def get_temperature():
-    return handle_temperature()
+    temperature = handle_temperature()
+    return temperature
 
 
 @app.route("/")
