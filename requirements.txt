@@ -1,6 +1,6 @@
 click==8.0.1
 flash==1.0.3
-Flask==2.0.1
+Flask==2.3.2
 Flask-Cors==3.0.10
 importlib-metadata==4.5.0
 itsdangerous==2.0.1
